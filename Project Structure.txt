@@ -1,0 +1,18 @@
+Agent Team-A/
+
+├── config/
+│   ├── agent.yaml          # Agent config (needs your definitions)
+│   └── policies.yaml       # Policy rules (needs pattern fixes)
+├── prompts/
+│   ├── system.md           # System instructions
+│   ├── style.md            # Response style
+│   └── refusal.md          # Refusal behavior
+├── src/
+│   ├── agent.py            # Main orchestrator
+│   ├── policies.py         # Pattern matching engine
+│   ├── llm_provider.py     # LLM integration
+│   └── memory.py           # Conversation memory
+├── tests/
+│   └── stage2_test.py      # Adversarial test cases
+└── logs/
+    └── agent.log           # Conversation logs
