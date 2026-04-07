@@ -1,0 +1,41 @@
+This `openai.NotFoundError` with a **404** code is actually a "success" in one way: it proves your Python code is successfully talking to the **Ollama** server on your Zenbook! The only problem is that Ollama looked in its library and couldn't find a model named exactly **`deepseek-r1:8b`**.
+
+Even if you had it working on your C: drive, Ollama sometimes needs a quick "refresh" or a direct pull if you've recently updated your environment or moved files.
+
+### **The Solution: Pull the Model**
+Open a terminal (it doesn't have to be the one with your virtual environment) and run this command to download the model into Ollama's local storage:
+
+```powershell
+ollama pull deepseek-r1:8b
+```
+
+---
+
+### **Step-by-Step Verification**
+
+#### **1. Check what Ollama sees**
+After the pull finishes, verify the exact name Ollama is using by running:
+```powershell
+ollama list
+```
+* **Look at the "NAME" column.** If it says `deepseek-r1:latest` instead of `deepseek-r1:8b`, we will need to update your `.env` file to match that name.
+
+#### **2. Sync your `.env` file**
+Open your `.env` file in VS Code and make sure the `LLM_MODEL` matches the name from the `ollama list` command exactly:
+```text
+LLM_PROVIDER=local
+LLM_MODEL=deepseek-r1:8b
+```
+
+#### **3. Restart the Test**
+Once the model is pulled and the name is confirmed, try the Stage 2 test again:
+```powershell
+python -m tests.stage2_test
+```
+
+### **Why this happened in Stage 2**
+In **Stage 2**, your agent is performing a more complex handshake with the LLM to manage the **Persistent Memory**. 
+* If the model name is missing or has a tiny typo (like `deepseek-r1-8b` vs `deepseek-r1:8b`), the OpenAI-compatible bridge throws this 404 error.
+* By pulling it manually, you ensure the model weights are indexed and ready for the Ryzen AI 9 to process.
+
+**Did the `ollama pull` command show a download progress bar, or did it say the model already exists?**
