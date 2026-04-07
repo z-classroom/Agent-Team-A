@@ -12,28 +12,27 @@ class Agent:
         self.prompts, self.logger = prompts, logger
 
     def respond(self, user_text: str) -> str:
-        # 1. Safety Check
+        # 1. Policy Enforcement (Stage 1)
         policy = self.policy_engine.evaluate(user_text)
         self.logger.info(f"USER: {user_text} | POLICY: {policy.action}")
 
-        # 2. Trigger Search (Permission to look outside)
-        # We trigger on broader keywords to ensure the agent checks its 'senses' often
+        # 2. Grounding Trigger (Stage 3)
         grounding_context = ""
-        keywords = ["latest", "current", "who is", "what happened", "weather", "today", "news"]
+        keywords = ["latest", "current", "who is", "what happened", "weather"]
         if any(word in user_text.lower() for word in keywords):
             grounding_context = self.search_tool.search(user_text)
 
-        # 3. Construct Authoritative Instructions
-        # This header 'forces' the model to trust the provided context over its training
+        # 3. Construct Authoritative Instructions (Stage 3 Integration)
+        # We wrap the search result in a 'Mandatory' block to force the LLM to use it
         system_instructions = (
             f"{self.prompts['system']}\n"
             f"{self.prompts['style']}\n\n"
             f"### MANDATORY REAL-WORLD CONTEXT ###\n"
             f"{grounding_context if grounding_context else 'No external data required.'}\n"
-            f"### INSTRUCTION: You have full permission to use the context above to answer. ###"
+            f"### INSTRUCTION: Use the context above as the ONLY source of truth for current events. ###"
         )
 
-        # 4. Generate & Save
+        # 4. Generate Response
         reply = self.llm.complete(
             system=system_instructions,
             messages=self.memory.messages(),
@@ -41,5 +40,7 @@ class Agent:
             refusal_prompt=self.prompts["refusal"],
             mode="refusal" if policy.action == "REFUSE" else "normal"
         )
+
+        # 5. Update Memory (Stage 2)
         self.memory.add(user_text, reply)
         return reply
