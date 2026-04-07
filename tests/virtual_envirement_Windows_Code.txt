@@ -15,3 +15,29 @@ Once you see the (.venv) tag, run your new persistence test to see if DeepSeek-R
 
 PowerShell
 python -m tests.stage2_test
+
+Even though you see (.venv), it looks like your new environment on the D: drive is currently an empty shell. It has the Python engine, but it hasn't been "taught" how to speak to the OpenAI bridge yet.
+
+When you move a project to a new drive or folder, the virtual environment often needs a fresh round of library installations to link everything correctly.
+
+The 1-Minute Fix
+Since your environment is already active, run this command to install the "Universal Translator" and the other core tools directly into your D: drive workspace:
+
+PowerShell
+pip install pydantic pyyaml python-dotenv openai
+Why this is happening
+Isolation: Virtual environments are designed to be "silos." The libraries you installed on your C: drive stay there and don't automatically follow the code to the D: drive.
+
+The OpenAI Bridge: Your llm_provider.py relies on this library to translate your Python code into a language Ollama understands. Without it, the agent has no voice.
+
+Try the Stage 2 Test Again
+Once the installation finishes (it should be fast since the files are already in your Windows cache), run the test again:
+
+PowerShell
+python -m tests.stage2_test
+What to expect for Stage 2
+If the install works, the test will perform a two-session check:
+
+Session 1: It will ask for your name and study topic.
+
+Session 2: It will "restart," and if the JSON persistence we wrote is working, the agent will correctly identify you as Noor without you having to re-introduce yourself.
