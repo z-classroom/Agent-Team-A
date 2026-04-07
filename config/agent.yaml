@@ -1,9 +1,6 @@
 agent_name: "Team A Agent"
-version: "1.0.0"
-max_turns: 20
-logging:
-  path: "logs/agent.log"
-  level: "INFO"
+version: "2.0.0"
 memory:
   enabled: true
   max_messages: 12
+  file_path: "logs/conversation_history.json"  # New for Stage 2
