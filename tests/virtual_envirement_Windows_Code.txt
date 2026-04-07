@@ -1,0 +1,17 @@
+1. Unlock PowerShell
+Run this command first. When it asks for confirmation, type A (Yes to All) and hit Enter:
+
+PowerShell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+2. Activate the Environment
+Now that the "guard" is down, try the activation command again:
+
+PowerShell
+.\.venv\Scripts\Activate.ps1
+Tip: You’ll know it worked when you see (.venv) appear at the start of your prompt.
+
+3. Run the Stage 2 Test
+Once you see the (.venv) tag, run your new persistence test to see if DeepSeek-R1 remembers your name:
+
+PowerShell
+python -m tests.stage2_test
