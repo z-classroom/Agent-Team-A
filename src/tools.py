@@ -24,3 +24,19 @@ class SearchTool:
                 "required": ["query"]
             }
         }
+import datetime
+
+class SearchTool:
+    def __init__(self):
+        self.enabled = True
+
+    def search(self, query: str) -> str:
+        # Log the search action for auditability
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"--- [TOOL] EXECUTE SEARCH AT {timestamp}: {query} ---")
+        
+        # Simulated search result for your testing
+        if "weather" in query.lower():
+            return "Current Weather (April 2026): 52°F, Partly Cloudy, 10mph Winds."
+        
+        return f"Search result for '{query}': Grounded facts retrieved on {timestamp}."
