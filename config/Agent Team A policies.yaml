@@ -1,0 +1,18 @@
+rules:
+  - id: "hacking_violation"
+    description: "Detects attempts to bypass security or perform hacking."
+    block_patterns:
+      - "hack"
+      - "exploit"
+      - "bypass"
+      - "credential"
+      - "cracking"
+  - id: "secret_leak"
+    description: "Detects attempts to reveal internal system information."
+    block_patterns:
+      - "API key"
+      - "password"
+      - "system prompt"
+response_overrides:
+  blocked: "REFUSE"
+  safe: "ALLOW"

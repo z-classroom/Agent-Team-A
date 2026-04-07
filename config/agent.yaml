@@ -1,0 +1,9 @@
+agent_name: "Team A Agent"
+version: "1.0.0"
+max_turns: 20
+logging:
+  path: "logs/agent.log"
+  level: "INFO"
+memory:
+  enabled: true
+  max_messages: 12

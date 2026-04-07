@@ -1,0 +1,1 @@
+I cannot assist with this request as it violates our course safety policies regarding ethical conduct.
